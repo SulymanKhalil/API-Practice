@@ -5,7 +5,7 @@ function App() {
   const [users, setUsers] = useState([]);
   const [posts, setPosts] = useState([]);
   const [comments, setComments] = useState([]);
-  const [error, setError] = useState([]);
+  const [error, setError] = useState();
   const [loadingUsers, setLoadingUsers] = useState(false);
   const [loadingPosts, setLoadingPosts] = useState(false);
   const [loadingComments, setLoadingComments] = useState(false);
@@ -112,9 +112,16 @@ function App() {
     fetchComments();
   }, []);
 
+  useEffect(() => {
+  if (error) {
+    const timer = setTimeout(() => setError(null), 5000);
+    return () => clearTimeout(timer);
+  }
+}, [error]);
+
   return (
     <div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p>{error}</p>}
       <button onClick={addUser} disabled={addUserLoading}>
         {addUserLoading ? "Adding..." : "Add User"}
       </button>

@@ -120,62 +120,72 @@ function App() {
 }, [error]);
 
   return (
-    <div>
-      {error && <p>{error}</p>}
-      <button onClick={addUser} disabled={addUserLoading}>
-        {addUserLoading ? "Adding..." : "Add User"}
-      </button>
-      <button onClick={refreshUsers} disabled={loadingUsers}>
-        {loadingUsers ? "Loading..." : "Refresh Users"}
-      </button>
+    <div className="app-container">
+      {error && <div className="error-message">{error}</div>}
+      <div className="controls-section">
+        <button className="btn btn-primary" onClick={addUser} disabled={addUserLoading}>
+          {addUserLoading ? "Adding..." : "Add User"}
+        </button>
+        <button className="btn btn-secondary" onClick={refreshUsers} disabled={loadingUsers}>
+          {loadingUsers ? "Loading..." : "Refresh Users"}
+        </button>
+      </div>
       {loadingUsers || addUserLoading || deleteUserLoading ? (
-        <p>Loading...</p>
+        <div className="loading">
+          <span className="loading-spinner"></span>
+          Loading...
+        </div>
       ) : (
         users.map((user) => (
-          <div key={user.id}>
-            <p>{user.name}</p>
-            <p>{user.email}</p>
-            <p>{user.phone}</p>
-            <p>Users: {users.length}</p>
+          <div className="card user-card" key={user.id}>
+            <h3 className="card-title">{user.name}</h3>
+            <p className="card-email">{user.email}</p>
+            <p className="card-phone">{user.phone}</p>
+            <p className="card-meta">Users: {users.length}</p>
             <button
+              className="btn btn-danger"
               onClick={() => deleteUser(user.id)}
               disabled={deleteUserLoading}
             >
               {deleteUserLoading ? "Deleting..." : "Delete"}
             </button>
-            <hr />
+            <div className="divider"></div>
           </div>
         ))
       )}
 
-      <h2>Posts</h2>
+      <h2 className="section-header">Posts</h2>
       {loadingPosts ? (
-        <p>Loading...</p>
+        <div className="loading">
+          <span className="loading-spinner"></span>
+          Loading...
+        </div>
       ) : (
         posts.map((post) => (
-          <div key={post.id}>
-            <p>{post.title}</p>
-            <p>{post.body}</p>
-            <p>UserId: {post.userId}</p>
-            <p>Posts: {posts.length}</p>
-            <hr />
+          <div className="card post-card" key={post.id}>
+            <h3 className="card-title">{post.title}</h3>
+            <p className="card-text">{post.body}</p>
+            <p className="card-meta">UserId: {post.userId}</p>
+            <p className="card-meta">Posts: {posts.length}</p>
+            <div className="divider"></div>
           </div>
         ))
       )}
 
-      <h2>Comments</h2>
+      <h2 className="section-header">Comments</h2>
       {loadingComments ? (
-        <p>Loading...</p>
+        <div className="loading">
+          <span className="loading-spinner"></span>
+          Loading...
+        </div>
       ) : (
         comments.map((comment) => (
-          <div key={comment.id}>
-            <p>
-              <strong>{comment.name}</strong>
-            </p>
-            <p>{comment.body}</p>
-            <p>{comment.email}</p>
-            <p>Comments: {comments.length}</p>
-            <hr />
+          <div className="card comment-card" key={comment.id}>
+            <h3 className="card-title">{comment.name}</h3>
+            <p className="card-text">{comment.body}</p>
+            <p className="card-email">{comment.email}</p>
+            <p className="card-meta">Comments: {comments.length}</p>
+            <div className="divider"></div>
           </div>
         ))
       )}
